@@ -1,0 +1,112 @@
+<p-toast></p-toast>
+
+<div class="card">
+  <p-toolbar styleClass="mb-4">
+    <ng-template pTemplate="left">
+      <button pButton pRipple label="Thêm mới" icon="pi pi-plus" class="p-button-success mr-2" (click)="add()"></button>
+      <button *ngIf="selectedRows && selectedRows.length" pButton pRipple label="Xóa" icon="pi pi-trash"
+        class="p-button-danger" (click)="deleteSelected()"></button>
+    </ng-template>
+
+    <!-- <ng-template pTemplate="right">
+      <p-fileUpload mode="basic" accept="image/*" [maxFileSize]="1000000" label="Import" chooseLabel="Import"
+        class="mr-2 inline-block"></p-fileUpload>
+      <button pButton pRipple label="Export" icon="pi pi-upload" class="p-button-help"></button>
+    </ng-template> -->
+  </p-toolbar>
+
+  <div class="table-container">
+    <p-table #dt [scrollable]="true" [value]="data" [loading]="loading" [globalFilterFields]="['name']"
+      responsiveLayout="scroll" [(selection)]="selectedRows" [rowHover]="true" dataKey="id" scrollHeight="flex">
+      <ng-template pTemplate="caption">
+        <div class="flex align-items-center justify-content-between">
+          <div class="flex align-items-center justify-content-start">
+            <p-button type="button" icon="pi pi-refresh" (click)="loadData()" styleClass="p-button-text"></p-button>
+            <h5 class="m-0 p-2">Danh sách hợp đồng</h5>
+          </div>
+          <span class="p-input-icon-left">
+            <i class="pi pi-search"></i>
+            <input pInputText (input)="search.next($event.target.value)" type="text" placeholder="Tìm kiếm..." />
+          </span>
+        </div>
+      </ng-template>
+      <ng-template pTemplate="header">
+        <tr>
+          <th style="max-width:3rem">
+            <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
+          </th>
+          <th style="min-width:200px" pSortableColumn="name">Tên hợp đồng <p-sortIcon field="name"></p-sortIcon>
+          </th>
+          <th style="min-width:200px" pSortableColumn="description">Mô tả <p-sortIcon field="description"></p-sortIcon>
+          </th>
+          <th style="min-width:200px" pSortableColumn="customer">Khách hàng <p-sortIcon field="customer"></p-sortIcon>
+          </th>
+          <th style="max-width:200px" pSortableColumn="total">Tổng tiền <p-sortIcon field="total"></p-sortIcon>
+          </th>
+          <th style="max-width:120px">Chức năng</th>
+        </tr>
+      </ng-template>
+      <ng-template pTemplate="body" let-rowData>
+        <tr>
+          <td style="max-width:3rem">
+            <p-tableCheckbox [value]="rowData"></p-tableCheckbox>
+          </td>
+          <td style="min-width:200px">{{rowData.name}}</td>
+          <td style="min-width:200px">{{rowData.description}}</td>
+          <td style="min-width:200px">{{rowData.customer.name}}</td>
+          <td style="max-width:200px">{{rowData.total}}</td>
+          <td style="max-width:120px">
+            <button pButton pRipple icon="pi pi-pencil" class="p-button-rounded p-button-success mr-2"
+              (click)="edit(rowData)"></button>
+            <button pButton pRipple icon="pi pi-trash" class="p-button-rounded p-button-warning"
+              (click)="delete(rowData)"></button>
+          </td>
+        </tr>
+      </ng-template>
+      <ng-template pTemplate="summary">
+        <div class="flex justify-content-between">
+          <div class="flex align-items-center justify-content-center">
+            Tổng cộng có {{page.totalRow}} bản ghi
+          </div>
+          <p-paginator [rows]="page.pageSize" [totalRecords]="page.totalRow" [rowsPerPageOptions]="pageOption"
+            (onPageChange)="paginate($event)"></p-paginator>
+        </div>
+      </ng-template>
+    </p-table>
+  </div>
+
+</div>
+
+<p-dialog [(visible)]="dialogVisible" [style]="{width: '750px'}" header="Chi tiết hợp đồng" [modal]="true"
+  styleClass="p-fluid">
+  <ng-template pTemplate="content">
+    <div class="field">
+      <label for="name">Tên hợp đồng</label>
+      <input type="text" pInputText id="name" [(ngModel)]="currentRow.name" required autofocus />
+      <small class="p-error" *ngIf="submitted && !currentRow.name">Nhập tên</small>
+    </div>
+    <div class="field">
+      <label for="description">Mô tả</label>
+      <textarea id="description" pInputTextarea [(ngModel)]="currentRow.description" rows="3" cols="20"></textarea>
+    </div>
+    <div class="field">
+      <label for="customer">Khách hàng</label>
+      <p-dropdown [options]="customerResults" [(ngModel)]="currentRow.customerId" [filter]="true" optionLabel="name"
+        optionValue="id" appendTo="body" [autoDisplayFirst]="false" [resetFilterOnHide]="true"
+        (onFilter)="searchCustomer.next($event)" (onChange)="changeCustomer($event)"></p-dropdown>
+    </div>
+    <div class="field">
+      <label for="price">Tổng tiền</label>
+      <p-inputNumber id="total" [(ngModel)]="currentRow.total" mode="currency" currency="VND" locale="vi-VN"
+        [required]="true">
+      </p-inputNumber>
+    </div>
+  </ng-template>
+
+  <ng-template pTemplate="footer">
+    <button pButton pRipple label="Cancel" icon="pi pi-times" class="p-button-text" (click)="hideDialog()"></button>
+    <button pButton pRipple label="Save" icon="pi pi-check" class="p-button-text" (click)="save()"></button>
+  </ng-template>
+</p-dialog>
+
+<p-confirmDialog [style]="{width: '450px'}"></p-confirmDialog>
