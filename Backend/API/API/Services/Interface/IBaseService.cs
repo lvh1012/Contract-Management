@@ -1,4 +1,4 @@
-﻿using API.Model;
+﻿using API.DTOs;
 
 namespace API.Services.Interface
 {
@@ -15,6 +15,7 @@ namespace API.Services.Interface
         Task<bool> Delete(Guid id);
 
         Task<bool> DeleteMultiple(ListID listID);
+
         Task<List<TModel>> GetMultiple(ListID listID);
     }
 }

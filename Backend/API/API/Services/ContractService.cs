@@ -1,4 +1,4 @@
-﻿using API.Exceptions;
+﻿using API.DTOs;
 using API.Extensions;
 using API.Model;
 using API.Repository.Interface;
@@ -9,8 +9,11 @@ namespace API.Services
 {
     public class ContractService : BaseService<IContractRepository, Contract>, IContractService
     {
-        public ContractService(IContractRepository repository) : base(repository)
+        private readonly ITemplateService _templateService;
+
+        public ContractService(IContractRepository repository, ITemplateService templateService) : base(repository)
         {
+            _templateService = templateService;
         }
 
         public override async Task<DataPage> GetData(Page page, string query = null)
@@ -27,6 +30,11 @@ namespace API.Services
                 Page = page
             };
             return result;
+        }
+
+        public async Task<string> ExportContract(Guid id)
+        {
+            return await _templateService.ExportContract(id);
         }
     }
 }

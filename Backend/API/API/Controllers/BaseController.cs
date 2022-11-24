@@ -1,4 +1,5 @@
-﻿using API.Model;
+﻿using API.DTOs;
+using API.Model;
 using API.Services.Interface;
 using Microsoft.AspNetCore.Mvc;
 
@@ -18,7 +19,7 @@ namespace API.Controllers
         }
 
         [HttpPost("GetData")]
-        public async Task<IActionResult> GetData(Page page,[FromQuery] string query)
+        public async Task<IActionResult> GetData(Page page, [FromQuery] string query)
         {
             var result = await _service.GetData(page, query);
             return ResponseResult(result);
@@ -66,7 +67,7 @@ namespace API.Controllers
             return ResponseResult(result);
         }
 
-        private IActionResult ResponseResult(object result)
+        protected IActionResult ResponseResult(object result)
         {
             return Ok(result);
         }

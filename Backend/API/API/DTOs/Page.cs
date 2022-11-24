@@ -1,4 +1,4 @@
-﻿namespace API.Model
+﻿namespace API.DTOs
 {
     public class Page
     {

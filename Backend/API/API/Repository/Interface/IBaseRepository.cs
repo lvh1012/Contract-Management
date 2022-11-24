@@ -23,7 +23,9 @@ namespace API.Repository.Interface
         Task<bool> DeleteMultiple(List<TModel> entities);
 
         Task<bool> DeleteMultiple(List<Guid> listId);
+
         Task<List<TModel>> GetMultiple(List<Guid> listId);
+
         Task<bool> Exists(Guid id);
     }
 }
