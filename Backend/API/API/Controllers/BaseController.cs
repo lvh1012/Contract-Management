@@ -48,7 +48,14 @@ namespace API.Controllers
         [HttpPost("DeleteMultiple")]
         public async Task<IActionResult> DeleteMultiple(ListID listID)
         {
-            var result = await _service.DeleteMultiple(listID.Ids);
+            var result = await _service.DeleteMultiple(listID);
+            return ResponseResult(result);
+        }
+
+        [HttpPost("GetMultiple")]
+        public async Task<IActionResult> GetMultiple(ListID listID)
+        {
+            var result = await _service.GetMultiple(listID);
             return ResponseResult(result);
         }
 

@@ -70,9 +70,14 @@ namespace API.Services
             return await _repository.Update(model);
         }
 
-        public virtual async Task<bool> DeleteMultiple(List<Guid> listID)
+        public virtual async Task<bool> DeleteMultiple(ListID listID)
         {
-            return await _repository.DeleteMultiple(listID);
+            return await _repository.DeleteMultiple(listID.Ids);
+        }
+
+        public virtual async Task<List<TModel>> GetMultiple(ListID listID)
+        {
+            return await _repository.GetMultiple(listID.Ids);
         }
     }
 }

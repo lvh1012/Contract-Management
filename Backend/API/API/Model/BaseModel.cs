@@ -13,7 +13,7 @@ namespace API.Model
         public string Name { get; set; }
 
         [StringLength(1028)]
-        public string? Description { get; set; }
+        public string Description { get; set; }
 
         public Guid CreatedBy { get; set; }
         public DateTime CreatedOn { get; set; }

@@ -6,6 +6,6 @@
 
         public Guid CustomerId { get; set; }
         public Customer Customer { get; set; }
-        public List<ContractProduct> ContractProducts { get; set; } = new List<ContractProduct>();
+        public ICollection<ContractProduct> ContractProducts { get; set; } = new HashSet<ContractProduct>();
     }
 }

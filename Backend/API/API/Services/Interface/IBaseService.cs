@@ -14,6 +14,7 @@ namespace API.Services.Interface
 
         Task<bool> Delete(Guid id);
 
-        Task<bool> DeleteMultiple(List<Guid> listID);
+        Task<bool> DeleteMultiple(ListID listID);
+        Task<List<TModel>> GetMultiple(ListID listID);
     }
 }

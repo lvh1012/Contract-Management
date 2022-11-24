@@ -111,6 +111,11 @@ namespace API.Repository
             return await DeleteMultiple(entities);
         }
 
+        public virtual async Task<List<TModel>> GetMultiple(List<Guid> listId)
+        {
+            return await Get(e => listId.Contains(e.Id)).ToListAsync();
+        }
+
         public virtual async Task<bool> Exists(Guid id)
         {
             var entity = await GetById(id);
