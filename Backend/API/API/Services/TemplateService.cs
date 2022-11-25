@@ -143,20 +143,22 @@ namespace API.Services
             }
         }
 
-        public void ReplaceBookmark(string fileName)
+        public static void ReplaceBookmark(string fileName, object obj)
         {
             using (WordprocessingDocument doc
                 = WordprocessingDocument.Open(fileName, true))
             {
+
                 foreach (BookmarkStart bookmark in doc.MainDocumentPart.Document.Body.Descendants<BookmarkStart>())
                 {
                     // Get name of bookmark
                     string bookmarkNameOriginal = bookmark.Name;
 
                     // Get bookmark text from parent elements text
-                    string bookmarkText = bookmark.Parent.InnerText;
-                    Console.WriteLine($"{bookmarkNameOriginal} {bookmarkText} {bookmark.Id}");
-                    bookmark.NextSibling<Run>().Elements<Text>().First().Text = "hoanglv";
+                    if (obj.GetType().GetProperty(bookmarkNameOriginal) != null)
+                    {
+                        bookmark.NextSibling<Run>().Elements<Text>().First().Text = obj.GetType().GetProperty(bookmarkNameOriginal).GetValue(obj, null).ToString();
+                    }
                 }
             }
         }

@@ -12,6 +12,6 @@ namespace API.Model
         [StringLength(64)]
         public string Unit { get; set; }
 
-        public ICollection<ContractProduct> ContractProducts { get; set; } = new HashSet<ContractProduct>();
+        public ICollection<ContractProduct> ContractProducts { get; set; }
     }
 }

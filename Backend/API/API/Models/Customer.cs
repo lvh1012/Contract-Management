@@ -2,6 +2,6 @@
 {
     public class Customer : BaseModel
     {
-        public ICollection<Contract> Contracts { get; set; } = new HashSet<Contract>();
+        public ICollection<Contract> Contracts { get; set; }
     }
 }
